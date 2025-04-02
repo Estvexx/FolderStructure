@@ -1,20 +1,11 @@
-from pathlib import Path
-from typing import Final
 import sys
+from .paths import setup_paths
+from .colors import Cores
 
-# Configurações do Usuário
-USUARIO: Final[str] = "franc"
-BASE_DIR: Final[Path] = Path(f"C:/Users/{USUARIO}/scripts/projetos")
-LOG_FILE: Final[Path] = BASE_DIR / "criar_projeto.log"
-
-
-# Cores para terminal
-class Cores:
-    VERDE = "\033[92m"
-    AMARELO = "\033[93m"
-    VERMELHO = "\033[91m"
-    AZUL = "\033[94m"
-    RESET = "\033[0m"
+config = setup_paths()
+USUARIO = config["USUARIO"]
+BASE_DIR = config["BASE_DIR"]
+LOG_FILE = config["LOG_FILE"]
 
 
 # Verifica se o diretório base existe

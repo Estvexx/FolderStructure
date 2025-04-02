@@ -156,8 +156,6 @@ class ProjectCreator:
         )
         return False
 
-    # ... (mantenha os métodos existentes create_structure e outros)
-
     def template_exists(self, template_name: str) -> bool:
         """Verifica se o template existe"""
         exists = template_name in self.templates
