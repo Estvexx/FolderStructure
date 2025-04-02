@@ -20,14 +20,27 @@ class ProjectCreator:
             project_dir.mkdir(exist_ok=False)
             print(f"📂 Projeto '{project_name}' criado em {project_dir}")
 
+            # Cria instância do parser de árvore
             tree_parser = TreeParser(self.base_dir)
-            return tree_parser.create_from_tree(tree_str, project_dir)
+
+            # Executa a criação da estrutura
+            result = tree_parser.create_from_tree(tree_str, project_dir)
+
+            # Retorna o resultado diretamente sem verificar templates
+            return result
 
         except FileExistsError:
             print(f"⚠️ Erro: O projeto '{project_name}' já existe!")
             return False
         except Exception as e:
             print(f"❌ Erro crítico: {str(e)}")
+            # Limpeza em caso de erro
+            try:
+                import shutil
+
+                shutil.rmtree(project_dir)
+            except:
+                pass
             return False
 
     def validate_project_name(self, name: str) -> bool:
@@ -198,15 +211,50 @@ class ProjectCreator:
 
 
 def show_help():
-    """Mostra ajuda dos templates disponíveis com formatação colorida"""
-    print(
-        f"\n{settings.Cores.AZUL}📌 Uso: project_creator.py [NOME] [TEMPLATE]{settings.Cores.RESET}"
-    )
-    print(
-        f"{settings.Cores.AZUL}📍 Local padrão: {settings.BASE_DIR}\n{settings.Cores.RESET}"
-    )
-    print(f"{settings.Cores.AZUL}📦 Templates disponíveis:{settings.Cores.RESET}")
+    """Mostra ajuda completa com todos os modos de operação"""
+    # Cabeçalho
+    print(f"\n{settings.Cores.AZUL}🛠️  Project Creator - Ajuda{settings.Cores.RESET}")
+    print(f"{settings.Cores.VERDE}=========================={settings.Cores.RESET}")
 
+    # Modos de uso
+    print(f"\n{settings.Cores.AZUL}📌 Modos de Uso Disponíveis:{settings.Cores.RESET}")
+
+    # 1. Modo Interativo
+    print(f"\n{settings.Cores.VERDE}1. Modo Interativo:{settings.Cores.RESET}")
+    print(f"   {settings.Cores.AZUL}python project_creator.py -i{settings.Cores.RESET}")
+    print(
+        f"   {settings.Cores.AZUL}python project_creator.py --interactive{settings.Cores.RESET}"
+    )
+    print("   \n   Um assistente passo-a-passo para criação de projetos")
+
+    # 2. Modo CLI Tradicional
+    print(f"\n{settings.Cores.VERDE}2. Modo CLI Rápido:{settings.Cores.RESET}")
+    print(
+        f"   {settings.Cores.AZUL}python project_creator.py [NOME] [TEMPLATE]{settings.Cores.RESET}"
+    )
+    print(f"   \n   Exemplos:")
+    print(
+        f"   {settings.Cores.AZUL}python project_creator.py meu_projeto python{settings.Cores.RESET}"
+    )
+    print(
+        f"   {settings.Cores.AZUL}python project_creator.py meu_site site{settings.Cores.RESET}"
+    )
+
+    # 3. Modo Tree
+    print(f"\n{settings.Cores.VERDE}3. Modo Tree:{settings.Cores.RESET}")
+    print(
+        f"   {settings.Cores.AZUL}python project_creator.py -t [NOME] [ARQUIVO]{settings.Cores.RESET}"
+    )
+    print(
+        f"   {settings.Cores.AZUL}python project_creator.py --tree [NOME] < estrutura.txt{settings.Cores.RESET}"
+    )
+    print(
+        f"   {settings.Cores.AZUL}python project_creator.py --tree [NOME] (modo interativo){settings.Cores.RESET}"
+    )
+    print("   \n   Cria estrutura customizada a partir de um arquivo ou entrada direta")
+
+    # Templates disponíveis
+    print(f"\n{settings.Cores.AZUL}📦 Templates Pré-definidos:{settings.Cores.RESET}")
     for name, template in templates.TEMPLATES.items():
         print(
             f"  {settings.Cores.VERDE}{name.ljust(8)}{settings.Cores.RESET} → {template['description']}"
@@ -214,6 +262,20 @@ def show_help():
         if template["structure"]:
             print(f"      Estrutura: {', '.join(template['structure'])}")
 
+    # Configurações
+    print(f"\n{settings.Cores.AZUL}⚙️  Configurações Atuais:{settings.Cores.RESET}")
+    print(f"   Diretório Base: {settings.BASE_DIR}")
+    print(f"   Arquivo de Log: {settings.LOG_FILE}")
+
+    # Exemplo de tree
+    print(f"\n{settings.Cores.AZUL}🌳 Exemplo de Estrutura Tree:{settings.Cores.RESET}")
+    print("MeuProjeto")
+    print("├── src")
+    print("│   ├── main.py")
+    print("│   └── utils.py")
+    print("└── README.md")
+
+    # Rodapé
     print(
-        f"\n{settings.Cores.AZUL}Exemplo: python project_creator.py meu_site site{settings.Cores.RESET}"
+        f"\n{settings.Cores.VERDE}✅ Dica: Use --help a qualquer momento para ver esta mensagem{settings.Cores.RESET}"
     )
