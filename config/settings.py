@@ -25,3 +25,23 @@ if not BASE_DIR.exists():
     except Exception as e:
         print(f"{Cores.VERMELHO}❌ Erro ao criar diretório base: {e}{Cores.RESET}")
         sys.exit(1)
+
+
+TREE_SYNTAX_HELP = """\
+Sintaxe da árvore de diretórios:
+- Prefixos: 
+  '├── ' para itens intermédios
+  '└── ' para o último item
+  '│   ' para continuar ligação vertical
+- Indentação com 4 espaços indica hierarquia
+Exemplo:
+MeuProjeto
+├── src
+│   ├── components
+│   │   ├── Button.js
+│   ├── index.js
+├── assets
+│   ├── logo.png
+│   ├── styles.css
+├── README.md
+"""

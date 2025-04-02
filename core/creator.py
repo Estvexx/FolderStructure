@@ -1,5 +1,6 @@
 from typing import Dict
 from config import settings, templates
+from core.tree_parser import TreeParser
 import re
 import sys
 
@@ -8,6 +9,26 @@ class ProjectCreator:
     def __init__(self):
         self.base_dir = settings.BASE_DIR
         self.templates: Dict = templates.TEMPLATES
+
+    def create_from_tree(self, project_name: str, tree_str: str) -> bool:
+        """Cria projeto a partir de string de árvore"""
+        if not self.validate_project_name(project_name):
+            return False
+
+        project_dir = self.base_dir / project_name
+        try:
+            project_dir.mkdir(exist_ok=False)
+            print(f"📂 Projeto '{project_name}' criado em {project_dir}")
+
+            tree_parser = TreeParser(self.base_dir)
+            return tree_parser.create_from_tree(tree_str, project_dir)
+
+        except FileExistsError:
+            print(f"⚠️ Erro: O projeto '{project_name}' já existe!")
+            return False
+        except Exception as e:
+            print(f"❌ Erro crítico: {str(e)}")
+            return False
 
     def validate_project_name(self, name: str) -> bool:
         """Valida o nome do projeto com regex melhorado"""
