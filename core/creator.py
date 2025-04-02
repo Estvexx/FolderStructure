@@ -1,8 +1,7 @@
-from pathlib import Path
-import sys
 from typing import Dict
 from config import settings, templates
 import re
+import sys
 
 
 class ProjectCreator:
@@ -11,20 +10,119 @@ class ProjectCreator:
         self.templates: Dict = templates.TEMPLATES
 
     def validate_project_name(self, name: str) -> bool:
-        """Valida o nome do projeto"""
+        """Valida o nome do projeto com regex melhorado"""
         if not name:
             print(
                 f"{settings.Cores.VERMELHO}❌ Nome do projeto não pode ser vazio!{settings.Cores.RESET}"
             )
             return False
 
-        if not re.match(r"^[a-zA-Z0-9_-]+$", name):
+        pattern = r"^[a-zA-Z0-9_-]+$"
+        if not re.match(pattern, name):
             print(
-                f"{settings.Cores.VERMELHO}❌ Nome inválido! Use apenas letras, números, hífens ou underscores.{settings.Cores.RESET}"
+                f"{settings.Cores.VERMELHO}❌ Nome inválido! Use apenas:"
+                f"\n- Letras (a-z, A-Z)"
+                f"\n- Números (0-9)"
+                f"\n- Hífens (-) ou underscores (_){settings.Cores.RESET}"
+            )
+            return False
+
+        if len(name) > 50:
+            print(
+                f"{settings.Cores.VERMELHO}❌ Nome muito longo (máx. 50 caracteres){settings.Cores.RESET}"
             )
             return False
 
         return True
+
+    def template_exists(self, template_name: str) -> bool:
+        """Verifica se o template existe"""
+        exists = template_name in self.templates
+        if not exists:
+            print(
+                f"{settings.Cores.VERMELHO}❌ Template '{template_name}' não encontrado!{settings.Cores.RESET}"
+            )
+        return exists
+
+    def show_interactive_menu(self):
+        """Menu interativo completo com tratamento de erros"""
+        print(
+            f"\n{settings.Cores.AZUL}🛠️  Criador de Projetos Interativo{settings.Cores.RESET}"
+        )
+        print(
+            f"{settings.Cores.VERDE}================================{settings.Cores.RESET}\n"
+        )
+
+        print(f"📁 Local padrão: {self.base_dir}\n")
+
+        # Obter nome do projeto com validação
+        project_name = ""
+        while True:
+            project_name = input(
+                f"{settings.Cores.AZUL}? Nome do projeto:{settings.Cores.RESET} "
+            ).strip()
+            try:
+                if self.validate_project_name(project_name):
+                    break
+            except Exception as e:
+                print(
+                    f"{settings.Cores.VERMELHO}❌ Erro na validação: {e}{settings.Cores.RESET}"
+                )
+                sys.exit(1)
+
+        # Mostrar templates
+        print(f"\n{settings.Cores.AZUL}📦 Templates disponíveis:{settings.Cores.RESET}")
+        templates_list = list(self.templates.items())
+
+        for i, (name, template) in enumerate(templates_list, 1):
+            print(f"{i}. {name.ljust(8)} → {template['description']}")
+            if template["structure"]:
+                print(f"   Estrutura: {', '.join(template['structure'])}")
+
+        # Selecionar template
+        template_name = ""
+        while True:
+            choice = input(
+                f"\n{settings.Cores.AZUL}? Escolha o template (1-{len(templates_list)}):{settings.Cores.RESET} "
+            ).strip()
+            try:
+                if choice.isdigit():
+                    index = int(choice) - 1
+                    if 0 <= index < len(templates_list):
+                        template_name = templates_list[index][0]
+                        break
+                print(
+                    f"{settings.Cores.VERMELHO}⚠️ Escolha inválida! Digite um número entre 1 e {len(templates_list)}{settings.Cores.RESET}"
+                )
+            except Exception as e:
+                print(
+                    f"{settings.Cores.VERMELHO}❌ Erro inesperado: {e}{settings.Cores.RESET}"
+                )
+
+        # Confirmação final
+        confirm = (
+            input(
+                f"\n{settings.Cores.AMARELO}? Confirmar criação do projeto '{project_name}' com template '{template_name}'? [s/N]:{settings.Cores.RESET} "
+            )
+            .strip()
+            .lower()
+        )
+
+        if confirm == "s":
+            success = self.create_structure(project_name, template_name)
+            if success:
+                print(
+                    f"\n{settings.Cores.VERDE}✅ Projeto criado com sucesso em: {self.base_dir / project_name}{settings.Cores.RESET}"
+                )
+                return True
+            return False
+
+        print(
+            f"\n{settings.Cores.AMARELO}✖ Operação cancelada pelo usuário{settings.Cores.RESET}"
+        )
+        return False
+
+    # ... (mantenha os métodos existentes create_structure e outros)
 
     def template_exists(self, template_name: str) -> bool:
         """Verifica se o template existe"""
