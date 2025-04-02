@@ -1,0 +1,275 @@
+# 🛠 Criador de Projetos Automatizado
+
+Cria estruturas de projetos pré-configuradas com templates personalizáveis.
+
+## 📦 Estrutura do Projeto
+criar_projeto/
+├── config/
+│ ├── settings.py # Configurações do usuário/paths
+│ └── templates.py # Definições dos templates
+├── core/
+│ └── creator.py # Lógica principal de criação
+└── criar_projeto.py # Ponto de entrada (CLI)
+
+Copy
+
+## ✨ Funcionalidades
+- ✅ Criação de projetos com templates pré-definidos
+- ✅ Estrutura modular e fácil de extender
+- ✅ Mensagens intuitivas com emojis
+- ✅ Verificação de erros robusta
+
+## 📋 Templates Disponíveis
+| Nome    | Descrição                  | Estrutura                           |
+|---------|----------------------------|-------------------------------------|
+| `site`  | Website estático           | index.html, css/, js/, images/     |
+| `python`| Projeto Python             | src/, tests/, requirements.txt     |
+| `vazio` | Pasta vazia                | -                                   |
+
+## 🚀 Como Usar
+
+### Instalação
+1. Clone o repositório:
+```bash
+git clone [URL_DO_REPOSITORIO]
+Ajuste as configurações em config/settings.py:
+
+python
+Copy
+USUARIO = "seu_usuario"  # Modifique para seu usuário
+Uso Básico
+bash
+Copy
+# Criar projeto com template específico
+python criar_projeto.py NOME_DO_PROJETO TEMPLATE
+
+# Exemplo: criar site
+python criar_projeto.py meu_site site
+
+# Ajuda
+python criar_projeto.py --help
+🔧 Configuração Avançada
+Adicionar Templates
+Edite config/templates.py para adicionar novos templates:
+
+python
+Copy
+"novo_template": {
+    "description": "Descrição do template",
+    "structure": [
+        "pasta/",
+        "arquivo.txt"
+    ]
+}
+Mudar Local Padrão
+Ajuste em config/settings.py:
+
+python
+Copy
+BASE_DIR = Path("/caminho/alternativo/projetos")
+📌 Dependências
+Python 3.8+
+
+Nenhuma dependência externa
+
+🤝 Contribuição
+Faça fork do projeto
+
+Crie sua branch (git checkout -b feature/nova-feature)
+
+Commit suas mudanças (git commit -m 'Adiciona nova feature')
+
+Push para a branch (git push origin feature/nova-feature)
+
+Abra um Pull Request
+
+📄 Licença
+MIT
+
+Copy
+
+### Recursos Incluídos:
+1. **Diagrama de Estrutura** visual
+2. **Tabela de Templates** formatada
+3. **Instruções de Configuração** detalhadas
+4. **Guia de Contribuição** padrão
+5. **Seção de Dependências** explícita
+
+### Versão Atual:
+- **v3.1** (Estrutura Modular)
+- Data: [Inserir data atual]
+
+Sugiro adicionar também um arquivo `LICENSE` básico (MIT) e um `.gitignore` para Python se for versionar o projeto. Quer que eu gere esses arquivos também?
+Podes colocar isso tudo num MD por favor
+Aqui está o arquivo README.md completo e formatado para seu projeto:
+
+markdown
+Copy
+# 🚀 Criador de Projetos Automatizado
+
+![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+
+Ferramenta CLI para criar estruturas de projetos pré-configuradas com templates personalizáveis.
+
+## 📂 Estrutura do Projeto
+criar_projeto/
+├── config/
+│ ├── init.py
+│ ├── settings.py # Configurações do usuário
+│ └── templates.py # Definições dos templates
+├── core/
+│ ├── init.py
+│ └── creator.py # Lógica principal
+├── criar_projeto.py # Ponto de entrada CLI
+├── README.md # Este arquivo
+└── requirements.txt # Dependências (vazio - sem dependências externas)
+
+Copy
+
+## ✨ Funcionalidades
+
+- 🏗 Criação automática de estruturas de projetos
+- 📦 Sistema modular de templates
+- 🎨 Feedback visual com emojis
+- ⚠️ Tratamento robusto de erros
+- 🔧 Fácil configuração e extensão
+
+## 🛠 Como Usar
+
+### Pré-requisitos
+- Python 3.8 ou superior
+- Permissões de escrita no diretório destino
+
+### Instalação
+1. Clone o repositório:
+```bash
+git clone https://github.com/seu-usuario/criar_projeto.git
+cd criar_projeto
+Configure seu usuário (opcional):
+
+bash
+Copy
+# Edite o arquivo de configurações
+nano config/settings.py
+Uso Básico
+bash
+Copy
+# Sintaxe:
+python criar_projeto.py [NOME_PROJETO] [TEMPLATE]
+
+# Exemplos:
+python criar_projeto.py meu_site site
+python criar_projeto.py api_rest python
+python criar_projeto.py projeto_vazio
+Obter Ajuda
+bash
+Copy
+python criar_projeto.py --help
+📦 Templates Disponíveis
+Template	Descrição	Estrutura Gerada
+site	Website estático	index.html, css/, js/, images/
+python	Projeto Python	src/, tests/, requirements.txt
+vazio	Pasta vazia	-
+⚙️ Configuração Avançada
+Adicionar Novos Templates
+Edite config/templates.py:
+
+python
+Copy
+TEMPLATES = {
+    "meu_template": {
+        "description": "Descrição do novo template",
+        "structure": [
+            "pasta_nova/",
+            "arquivo.config",
+            "subpasta/arquivo.txt"
+        ]
+    }
+}
+Alterar Diretório Padrão
+Modifique config/settings.py:
+
+python
+Copy
+BASE_DIR = Path("/caminho/absoluto/para/projetos")
+🐛 Solução de Problemas
+Erro: Pasta já existe
+
+Copy
+⚠️ Erro: O projeto 'meu_projeto' já existe!
+Solução: Escolha um nome diferente ou delete a pasta existente.
+
+Erro: Permissão negada
+
+Copy
+❌ Erro crítico: [Errno 13] Permission denied...
+Solução: Execute com permissões de administrador ou escolha outro diretório.
+
+🤝 Contribuindo
+Faça um Fork do projeto
+
+Crie sua Feature Branch (git checkout -b feature/nova-feature)
+
+Commit suas Mudanças (git commit -m 'Add nova feature')
+
+Push para a Branch (git push origin feature/nova-feature)
+
+Abra um Pull Request
+
+📄 Licença
+Distribuído sob licença MIT. Veja LICENSE para mais informações.
+
+✉️ Contato
+Seu Nome - @seu_twitter - seu@email.com
+
+Project Link: https://github.com/seu-usuario/criar_projeto
+
+Copy
+
+### Inclui também o arquivo `LICENSE` (MIT) sugerido:
+
+```text
+MIT License
+
+Copyright (c) [ano] [Seu Nome]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+E um .gitignore básico para Python:
+gitignore
+Copy
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.env/
+
+# IDE specific
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
