@@ -7,7 +7,7 @@ Ferramenta para criação automatizada de estruturas de projetos com templates p
 1. Clone o repositório:
    ```bash
    git clone https://github.com/Estvexx/FolderStructure.git
-   cd AUTOMATEFOLDER
+   cd FolderStructure
    ```
 
 ## 🚀 Como Usar
