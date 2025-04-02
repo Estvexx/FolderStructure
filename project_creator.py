@@ -4,15 +4,16 @@ import sys
 
 
 def main():
-    if len(sys.argv) < 2 or sys.argv[1] in ("-h", "--help"):
+    if len(sys.argv) < 2 or sys.argv[1] in ("-h", "--help", "help"):
         show_help()
-        sys.exit()
+        sys.exit(0)
 
     creator = ProjectCreator()
     project_name = sys.argv[1]
     template = sys.argv[2] if len(sys.argv) > 2 else "vazio"
 
-    creator.create_structure(project_name, template)
+    if not creator.create_structure(project_name, template):
+        sys.exit(1)
 
 
 if __name__ == "__main__":
